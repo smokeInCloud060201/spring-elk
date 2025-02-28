@@ -217,6 +217,18 @@ services:
       timeout: 10s
       retries: 120
 
+  logstash:
+    image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
+    container_name: logstash
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./certs:/usr/share/logstash/config/certs
+    environment:
+      - "LS_JAVA_OPTS=-Xms256m -Xmx256m"
+    ports:
+      - "5000:5000/tcp"
+      - "9600:9600"
+
 volumes:
   certs:
     driver: local
